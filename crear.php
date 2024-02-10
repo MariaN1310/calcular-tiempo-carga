@@ -2,7 +2,6 @@
 
 $tipo = $_POST['tipo'];
 
-
 if ($tipo == "js") {
 	unlink('test.js');
 	$numero = rand(0, 9999);
@@ -26,9 +25,10 @@ if ($tipo == "js") {
 	$text .= $_POST['text']."
 	
 	var end   = hrtime".$numero." ();
-	console.log ('Tiempo de ejecución:', (end - start).toString().match(/^-?\d+(?:\.\d{0,5})?/)[0], 'segundos');
 	var tiempo = (end - start);
-	$('#prog2').html('<b>Tiempo de ejecución JS: '+tiempo+' segundos</b>')";
+	var tiempo2 = tiempo/1000;
+	console.log ('Tiempo de ejecución:', (end - start).toString().match(/^-?\d+(?:\.\d{0,5})?/)[0], ' milisegundos');
+	$('#tiempo').html('<b>Tiempo de ejecución JS:<br>'+tiempo.toString().match(/^-?\d+(?:\.\d{0,5})?/)[0]+' milisegundos <br>'+tiempo2.toString().match(/^-?\d+(?:\.\d{0,5})?/)[0]+' segundos</b>');";
 
 	$file = fopen("test.js","a");
 	fputs($file, $text) or die("No se puedo crear el Fichero.");
@@ -38,24 +38,14 @@ if ($tipo == "js") {
 } elseif ($tipo == "php") {
 	unlink('test.php');
 	$text = "<?php
-	\$start = microtime(true);
+	\$start = hrtime(true);
 	";
 	$text .= $_POST['text']."
 	";
 
-	$text .= "\$end = microtime(true);
+	$text .= "\$end = hrtime(true);
 	\$time = \$end-\$start;
-	echo \$time; ?>";
-	/*$start = microtime(true);
-
-	for ($i = 0; $i < 1000; $i++) {
-		// Solo como código demostrativo.
-		preg_match('/^0{3}\b/', $number);
-	}
-
-	$end = microtime(true);
-	$time = $end-$start;
-	echo $time;*/
+	echo \$time/1e+6; ?>";
 
 	$file = fopen("test.php","a");
 	fputs($file, $text) or die("No se puedo crear el Fichero.");

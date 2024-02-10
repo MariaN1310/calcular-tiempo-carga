@@ -1,9 +1,3 @@
-<?php
-/*Pagina que permita pegar en un textbox codigo php o js.
-El mismo cree un archivo con el codigo enviado y mida el tiempo de ejecución.
-En lo posible que el archivo lo cree con ajax y lo ejecute y solo devuelva el tiempo, nada mas que eso.
-*/
-?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>
@@ -17,17 +11,18 @@ En lo posible que el archivo lo cree con ajax y lo ejecute y solo devuelva el ti
 			$(document).ready(function(e) {
 				$("#formulario").on('submit', function(e) {
 					e.preventDefault();
+
 					$.ajax( {
 						method: 'POST',
 						url: 'crear.php',
 						data: $('form').serialize() + '&tipo=php',
-						success: function(response2) {
+						success: function(response) {
 							$.ajax( {
 								method: 'POST',
 								url: 'test.php',
-								success: function(response3) {
-									console.log ('Tiempo de ejecución:', (response3).toString().match(/^-?\d+(?:\.\d{0,5})?/)[0], 'segundos');
-									$('#prog2').html('<b>Tiempo de ejecución PHP: '+response3+' segundos</b>');				
+								success: function(response2) {
+									console.log ('Tiempo de ejecución:', (response2).toString().match(/^-?\d+(?:\.\d{0,5})?/)[0], ' milisegundos');
+									$('#tiempo').html('<b>Tiempo de ejecución PHP:<br>'+response2.toString().match(/^-?\d+(?:\.\d{0,5})?/)[0]+' milisegundos<br>'+(response2.toString().match(/^-?\d+(?:\.\d{0,5})?/)[0])/1000+' segundos</b>');
 								}
 							});				
 						}
@@ -41,7 +36,7 @@ En lo posible que el archivo lo cree con ajax y lo ejecute y solo devuelva el ti
 			<header class="d-flex justify-content-center py-3">
 				<ul class="nav nav-pills">
 					<li class="nav-item"><a href="index.html" class="nav-link">Calcular JS</a></li>
-					<li class="nav-item"><a href="indexphp.php" class="nav-link active" aria-current="page">Calcular PHP</a></li>
+					<li class="nav-item"><a href="index2.html" class="nav-link active" aria-current="page">Calcular PHP</a></li>
 				</ul>
 			</header>
 		</div>
@@ -51,7 +46,7 @@ En lo posible que el archivo lo cree con ajax y lo ejecute y solo devuelva el ti
 				<textarea name="text" id="text" rows="8" class="form-control text-center"></textarea>
 				<button class="btn btn-primary mt-3" type="submit" id="save-btn">Calcular</button>
 			</form>
-			<a id="prog2"></a>
+			<a id="tiempo"></a>
 		</div>
 	</body>
 </html>
