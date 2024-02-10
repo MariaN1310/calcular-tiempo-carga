@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Elección aleatoria</title>
+		<script src="js/jquery-3.7.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<script>
+			/*for (var n = 0; n < 10000; n++) {
+					var x = Math.log(n);
+				}*/
+		
+			$(document).ready(function(e) {
+				$("#formulario").on('submit', function(e) {
+					e.preventDefault();
+					$.ajax( {
+						method: 'POST',
+						url: 'crear.php',
+						data: $('form').serialize() + '&tipo=js',
+						success: function(response2) {
+							$.getScript('test.js', function() {
+								console.log('Script cargado');
+							});							
+						}
+					});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<header class="d-flex justify-content-center py-3">
+				<ul class="nav nav-pills">
+				<li class="nav-item"><a href="index.html" class="nav-link active" aria-current="page">Calcular JS</a></li>
+					<li class="nav-item"><a href="indexphp.php" class="nav-link">Calcular PHP</a></li>
+				</ul>
+			</header>
+		</div>
+		<div class="container text-center mt-2">
+			<h1>Calcular tiempo ejecución JS</h1>
+			<form id="formulario">
+				<textarea name="text" id="text" rows="8" class="form-control text-center"></textarea>
+				<button class="btn btn-primary mt-3" type="submit" id="save-btn">Calcular</button>
+			</form>
+			<a id="prog2"></a>
+		</div>
+	</body>
+</html>
